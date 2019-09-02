@@ -64,7 +64,7 @@ QString HelloWorldBqmPlugin::description() const
 
 QString HelloWorldBqmPlugin::details() const
 {
-    return QString::fromUtf8("<p>This BAtch Queue Manager tool is a simple demo.</p>");
+    return QString::fromUtf8("<p>This Batch Queue Manager tool is a simple demo.</p>");
 }
 
 QList<DPluginAuthor> HelloWorldBqmPlugin::authors() const
