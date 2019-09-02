@@ -1,6 +1,6 @@
 * Description:
 
-This repository host some demo code to write new external digiKam plugins (DPlugins)
+This repository guest some demo codes to write new external digiKam plugins (Digikam::DPlugin)
 as Generic tools, Image Editor tools, and Batch Queue Manager tools
 
 * Dependencies:
