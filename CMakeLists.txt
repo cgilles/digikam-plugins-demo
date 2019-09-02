@@ -9,3 +9,9 @@ project(dplugins-demo)
 add_subdirectory(bqm)
 add_subdirectory(editor)
 #add_subdirectory(generic)
+
+# --- Uninstall files ------------------------------
+
+CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/cmake/templates/target.uninstall.cmake.in_cmake"
+               "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake" COPYONLY)
+ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_BINARY_DIR}/cmake_uninstall.cmake")
