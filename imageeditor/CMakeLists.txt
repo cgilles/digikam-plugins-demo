@@ -66,3 +66,5 @@ endif()
 install(TARGETS Editor_HelloWorld_Plugin
         DESTINATION ${QT_PLUGINS_DIR}/digikam/editor
 )
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
