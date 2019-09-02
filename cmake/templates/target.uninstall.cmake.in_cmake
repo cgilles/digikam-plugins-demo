@@ -24,8 +24,7 @@ foreach(file ${files})
                      RETURN_VALUE rm_retval
         )
 
-        if("${rm_retval}" STREQUAL 0)
-        else()
+        if(NOT "${rm_retval}" STREQUAL 0)
 
             message(FATAL_ERROR "Problem when removing \"${file}\"")
 
