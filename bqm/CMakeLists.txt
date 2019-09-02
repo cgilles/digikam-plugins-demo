@@ -4,7 +4,7 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-project(externaldplugins)
+project(dpluginsdemo-bqm)
 
 cmake_minimum_required(VERSION "3.1.0")
 set (CMAKE_CXX_STANDARD 11)

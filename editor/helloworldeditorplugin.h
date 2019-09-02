@@ -20,8 +20,8 @@
  *
  * ============================================================ */
 
-#ifndef DIGIKAM_HELLOWORLDTOOL_PLUGIN_H
-#define DIGIKAM_HELLOWORLDTOOL_PLUGIN_H
+#ifndef DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H
+#define DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H
 
 // Local includes
 
@@ -31,10 +31,10 @@
 
 using namespace Digikam;
 
-namespace DigikamEditorHelloWorldToolPlugin
+namespace DigikamEditorHelloWorldEditorPlugin
 {
 
-class HelloWorlToolPlugin : public DPluginEditor
+class HelloWorldEditorPlugin : public DPluginEditor
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID DPLUGIN_IID)
@@ -42,8 +42,8 @@ class HelloWorlToolPlugin : public DPluginEditor
 
 public:
 
-    explicit HelloWorlToolPlugin(QObject* const parent = nullptr);
-    ~HelloWorlToolPlugin();
+    explicit HelloWorldEditorPlugin(QObject* const parent = nullptr);
+    ~HelloWorldEditorPlugin();
 
     QString name()                 const override;
     QString iid()                  const override;
@@ -61,4 +61,4 @@ private Q_SLOTS:
 
 } // namespace DigikamEditorHelloWorldToolPlugin
 
-#endif // DIGIKAM_HELLOWORLDTOOL_PLUGIN_H
+#endif // DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H

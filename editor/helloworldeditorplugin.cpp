@@ -20,51 +20,51 @@
  *
  * ============================================================ */
 
-#include "helloworldtoolplugin.h"
+#include "helloworldeditorplugin.h"
 
 // Qt includes
 
 #include <QApplication>
 #include <QMessageBox>
 
-namespace DigikamEditorHelloWorldToolPlugin
+namespace DigikamEditorHelloWorldEditorPlugin
 {
 
-HelloWorlToolPlugin::HelloWorlToolPlugin(QObject* const parent)
+HelloWorldEditorPlugin::HelloWorldEditorPlugin(QObject* const parent)
     : DPluginEditor(parent)
 {
 }
 
-HelloWorlToolPlugin::~HelloWorlToolPlugin()
+HelloWorldEditorPlugin::~HelloWorldEditorPlugin()
 {
 }
 
-QString HelloWorlToolPlugin::name() const
+QString HelloWorldEditorPlugin::name() const
 {
     return QString::fromUtf8("Hello World");
 }
 
-QString HelloWorlToolPlugin::iid() const
+QString HelloWorldEditorPlugin::iid() const
 {
     return QLatin1String(DPLUGIN_IID);
 }
 
-QIcon HelloWorlToolPlugin::icon() const
+QIcon HelloWorldEditorPlugin::icon() const
 {
     return QIcon::fromTheme(QLatin1String("digikam"));
 }
 
-QString HelloWorlToolPlugin::description() const
+QString HelloWorldEditorPlugin::description() const
 {
     return QString::fromUtf8("A demo tool Hello World");
 }
 
-QString HelloWorlToolPlugin::details() const
+QString HelloWorldEditorPlugin::details() const
 {
     return QString::fromUtf8("<p>This Image Editor tool is a simple demo.</p>");
 }
 
-QList<DPluginAuthor> HelloWorlToolPlugin::authors() const
+QList<DPluginAuthor> HelloWorldEditorPlugin::authors() const
 {
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
@@ -73,7 +73,7 @@ QList<DPluginAuthor> HelloWorlToolPlugin::authors() const
             ;
 }
 
-void HelloWorlToolPlugin::setup(QObject* const parent)
+void HelloWorldEditorPlugin::setup(QObject* const parent)
 {
     DPluginAction* const ac = new DPluginAction(parent);
     ac->setIcon(icon());
@@ -87,11 +87,11 @@ void HelloWorlToolPlugin::setup(QObject* const parent)
     addAction(ac);
 }
 
-void HelloWorlToolPlugin::slotHelloWorld()
+void HelloWorldEditorPlugin::slotHelloWorld()
 {
     QMessageBox::information(qApp->activeWindow(),
                              qApp->applicationName(),
                              QString::fromUtf8("Hello World"));
 }
 
-} // namespace DigikamEditorHelloWorldToolPlugin
+} // namespace DigikamEditorHelloWorldEditorPlugin

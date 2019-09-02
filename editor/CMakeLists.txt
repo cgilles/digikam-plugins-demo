@@ -4,7 +4,7 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-project(externaldplugins)
+project(dpluginsdemo-editor)
 
 cmake_minimum_required(VERSION "3.1.0")
 set (CMAKE_CXX_STANDARD 11)
@@ -30,10 +30,10 @@ set_package_properties(DigikamCore PROPERTIES
 
 include_directories($<TARGET_PROPERTY:Digikam::digikamcore,INTERFACE_INCLUDE_DIRECTORIES>/digikam)
 
-set(helloworld_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldtoolplugin.cpp)
+set(helloworld_editor_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldeditorplugin.cpp)
 
 add_library(Editor_HelloWorld_Plugin
-            MODULE ${helloworld_SRCS})
+            MODULE ${helloworld_editor_SRCS})
 
 set_target_properties(Editor_HelloWorld_Plugin PROPERTIES PREFIX "")
 
