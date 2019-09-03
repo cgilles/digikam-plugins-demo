@@ -13,7 +13,7 @@ set(CMAKE_AUTOMOC ON)
 include(GNUInstallDirs)
 include(FeatureSummary)
 
-find_package(Qt5 "5.6.0"
+find_package(Qt5 "5.6.0" REQUIRED
              NO_MODULE COMPONENTS
              Core
              Widgets
