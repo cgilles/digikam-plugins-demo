@@ -20,6 +20,8 @@ It provides 3 "Hello World" plugins as:
 - DigikamDatabase >= 6.3.0      (https://www.digikam.org)       BQM plugin only
 - DigikamGui      >= 6.3.0      (https://www.digikam.org)       BQM plugin only
 
+Note: plugins do not depend on KF5 framework.
+
 ### Compilation:
 
 ```
