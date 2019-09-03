@@ -82,7 +82,7 @@ void HelloWorldPlugin::setup(QObject* const parent)
     ac->setActionCategory(DPluginAction::GenericTool);
 
     connect(ac, SIGNAL(triggered(bool)),
-            this, SLOT(slotHelloWorldr()));
+            this, SLOT(slotHelloWorld()));
 
     addAction(ac);
 }
