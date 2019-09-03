@@ -5,11 +5,11 @@ as Generic tools, Image Editor tools, and Batch Queue Manager tools.
 
 * Dependencies:
 
-- cmake           >= 3.1.0
-- Qt              >= 5.6.0
-- DigikamCore     >= 6.3.0
-- DigikamDatabase >= 6.3.0
-- DigikamGui      >= 6.3.0
+- cmake           >= 3.1.0      (https://cmake.org/)
+- Qt              >= 5.6.0      (https://www.qt.io/)
+- DigikamCore     >= 6.3.0      (https://www.digikam.org)
+- DigikamDatabase >= 6.3.0      (https://www.digikam.org)
+- DigikamGui      >= 6.3.0      (https://www.digikam.org)
 
 * Compilation:
 
@@ -19,8 +19,10 @@ make
 
 * Install:
 
+cd build
 sudo make install/fast
 
 * Uninstall:
 
+cd build
 sudo make uninstall
