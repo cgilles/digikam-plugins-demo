@@ -7,7 +7,7 @@
 project(dplugins-demo)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
-INCLUDE(MacroUninstall)
+INCLUDE(MacroInstall)
 
 ###
 
