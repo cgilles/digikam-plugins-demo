@@ -8,7 +8,7 @@ project(dplugins-demo)
 
 add_subdirectory(bqm)
 add_subdirectory(editor)
-#add_subdirectory(generic)
+add_subdirectory(generic)
 
 # --- Uninstall files ------------------------------
 

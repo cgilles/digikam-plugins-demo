@@ -4,7 +4,7 @@
  * https://www.digikam.org
  *
  * Date        : 2018-07-30
- * Description : Hello World demo image editor plugin.
+ * Description : Hello World demo generic plugin.
  *
  * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
@@ -20,78 +20,79 @@
  *
  * ============================================================ */
 
-#include "helloworldeditorplugin.h"
+#include "helloworldgenericplugin.h"
 
 // Qt includes
 
 #include <QApplication>
 #include <QMessageBox>
 
-namespace DigikamEditorHelloWorldEditorPlugin
+namespace DigikamGenericHelloWorldPlugin
 {
 
-HelloWorldEditorPlugin::HelloWorldEditorPlugin(QObject* const parent)
-    : DPluginEditor(parent)
-{
-}
-
-HelloWorldEditorPlugin::~HelloWorldEditorPlugin()
+HelloWorldPlugin::HelloWorldPlugin(QObject* const parent)
+    : DPluginGeneric(parent)
 {
 }
 
-QString HelloWorldEditorPlugin::name() const
+HelloWorldPlugin::~HelloWorldPlugin()
+{
+}
+
+QString HelloWorldPlugin::name() const
 {
     return QString::fromUtf8("Hello World");
 }
 
-QString HelloWorldEditorPlugin::iid() const
+QString HelloWorldPlugin::iid() const
 {
     return QLatin1String(DPLUGIN_IID);
 }
 
-QIcon HelloWorldEditorPlugin::icon() const
+QIcon HelloWorldPlugin::icon() const
 {
     return QIcon::fromTheme(QLatin1String("digikam"));
 }
 
-QString HelloWorldEditorPlugin::description() const
+QString HelloWorldPlugin::description() const
 {
     return QString::fromUtf8("A demo Hello World plugin");
 }
 
-QString HelloWorldEditorPlugin::details() const
+QString HelloWorldPlugin::details() const
 {
-    return QString::fromUtf8("<p>This Image Editor plugin is a simple demo.</p>");
+    return QString::fromUtf8("<p>This Generic plugin is a simple demo.</p>");
 }
 
-QList<DPluginAuthor> HelloWorldEditorPlugin::authors() const
+QList<DPluginAuthor> HelloWorldPlugin::authors() const
 {
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
                              QString::fromUtf8("(C) 2019"))
-            ;
+    ;
 }
 
-void HelloWorldEditorPlugin::setup(QObject* const parent)
+void HelloWorldPlugin::setup(QObject* const parent)
 {
     DPluginAction* const ac = new DPluginAction(parent);
     ac->setIcon(icon());
     ac->setText(QString::fromUtf8("Hello World..."));
-    ac->setObjectName(QLatin1String("editorwindow_helloworld"));
-    ac->setActionCategory(DPluginAction::EditorColors);
+    ac->setObjectName(QLatin1String("HelloWorld"));
+    ac->setActionCategory(DPluginAction::GenericTool);
 
     connect(ac, SIGNAL(triggered(bool)),
-            this, SLOT(slotHelloWorld()));
+            this, SLOT(slotHelloWorldr()));
 
     addAction(ac);
 }
 
-void HelloWorldEditorPlugin::slotHelloWorld()
+void HelloWorldPlugin::slotHelloWorldr()
 {
     QMessageBox::information(qApp->activeWindow(),
                              qApp->applicationName(),
                              QString::fromUtf8("Hello World"));
+    
 }
 
-} // namespace DigikamEditorHelloWorldEditorPlugin
+} // namespace DigikamGenericHelloWorldPlugin

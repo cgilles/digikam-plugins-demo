@@ -4,7 +4,7 @@
  * https://www.digikam.org
  *
  * Date        : 2018-07-30
- * Description : Hello World demo image editor plugin.
+ * Description : Hello World demo generic plugin.
  *
  * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
@@ -20,30 +20,30 @@
  *
  * ============================================================ */
 
-#ifndef DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H
-#define DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H
+#ifndef DIGIKAM_HELLO_WORLD_GENERIC_PLUGIN_H
+#define DIGIKAM_HELLO_WORLD_GENERIC_PLUGIN_H
 
 // Local includes
 
-#include "dplugineditor.h"
+#include "dplugingeneric.h"
 
-#define DPLUGIN_IID "org.kde.digikam.plugin.editor.HelloWorld"
+#define DPLUGIN_IID "org.kde.digikam.plugin.generic.HelloWorld"
 
 using namespace Digikam;
 
-namespace DigikamEditorHelloWorldEditorPlugin
+namespace DigikamGenericHelloWorldPlugin
 {
 
-class HelloWorldEditorPlugin : public DPluginEditor
+class HelloWorldPlugin : public DPluginGeneric
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID DPLUGIN_IID)
-    Q_INTERFACES(Digikam::DPluginEditor)
+    Q_INTERFACES(Digikam::DPluginGeneric)
 
 public:
 
-    explicit HelloWorldEditorPlugin(QObject* const parent = nullptr);
-    ~HelloWorldEditorPlugin();
+    explicit HelloWorldPlugin(QObject* const parent = nullptr);
+    ~HelloWorldPlugin();
 
     QString name()                 const override;
     QString iid()                  const override;
@@ -59,6 +59,6 @@ private Q_SLOTS:
     void slotHelloWorld();
 };
 
-} // namespace DigikamEditorHelloWorldToolPlugin
+} // namespace DigikamGenericHelloWorldPlugin
 
-#endif // DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H
+#endif // DIGIKAM_HELLO_WORLD_GENERIC_PLUGIN_H

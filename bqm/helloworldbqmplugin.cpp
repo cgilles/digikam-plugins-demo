@@ -4,7 +4,7 @@
  * https://www.digikam.org
  *
  * Date        : 2019-09-01
- * Description : BQM plugin HelloWorld demo.
+ * Description : Hello World demo BQM plugin.
  *
  * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
