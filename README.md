@@ -1,9 +1,9 @@
-* Description:
+### Description:
 
 This repository guest some demo codes to write new external digiKam plugins (Digikam::DPlugin)
 as Generic tools, Image Editor tools, and Batch Queue Manager tools.
 
-* Dependencies:
+### Dependencies:
 
 - cmake           >= 3.1.0      (https://cmake.org/)
 - Qt              >= 5.6.0      (https://www.qt.io/)
@@ -11,7 +11,7 @@ as Generic tools, Image Editor tools, and Batch Queue Manager tools.
 - DigikamDatabase >= 6.3.0      (https://www.digikam.org)
 - DigikamGui      >= 6.3.0      (https://www.digikam.org)
 
-* Compilation:
+### Compilation:
 
 ```
 # ./bootstrap.sh
@@ -19,14 +19,14 @@ as Generic tools, Image Editor tools, and Batch Queue Manager tools.
 # make
 ```
 
-* Install:
+### Install:
 
 ```
 # cd build
 # sudo make install/fast
 ```
 
-* Uninstall:
+### Uninstall:
 
 ```
 # cd build
