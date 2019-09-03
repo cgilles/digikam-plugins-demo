@@ -13,16 +13,22 @@ as Generic tools, Image Editor tools, and Batch Queue Manager tools.
 
 * Compilation:
 
-./bootstrap.sh
-cd build
-make
+```
+# ./bootstrap.sh
+# cd build
+# make
+```
 
 * Install:
 
-cd build
-sudo make install/fast
+```
+# cd build
+# sudo make install/fast
+```
 
 * Uninstall:
 
-cd build
-sudo make uninstall
+```
+# cd build
+# sudo make uninstall
+```
