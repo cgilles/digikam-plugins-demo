@@ -87,12 +87,11 @@ void HelloWorldPlugin::setup(QObject* const parent)
     addAction(ac);
 }
 
-void HelloWorldPlugin::slotHelloWorldr()
+void HelloWorldPlugin::slotHelloWorld()
 {
     QMessageBox::information(qApp->activeWindow(),
                              qApp->applicationName(),
                              QString::fromUtf8("Hello World"));
-    
 }
 
 } // namespace DigikamGenericHelloWorldPlugin

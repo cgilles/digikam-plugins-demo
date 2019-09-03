@@ -30,7 +30,7 @@ set_package_properties(DigikamCore PROPERTIES
 
 include_directories($<TARGET_PROPERTY:Digikam::digikamcore,INTERFACE_INCLUDE_DIRECTORIES>/digikam)
 
-set(helloworld_genric_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldgenericplugin.cpp)
+set(helloworld_generic_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldgenericplugin.cpp)
 
 add_library(Generic_HelloWorld_Plugin
             MODULE ${helloworld_generic_SRCS})
