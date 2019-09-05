@@ -31,6 +31,7 @@
 
 #include <imageiface.h>
 #include <dmessagebox.h>
+#include <photoinfocontainer.h>
 
 namespace DigikamEditorHelloWorldEditorPlugin
 {
@@ -82,7 +83,7 @@ void HelloWorldEditorPlugin::setup(QObject* const parent)
 {
     DPluginAction* const ac = new DPluginAction(parent);
     ac->setIcon(icon());
-    ac->setText(QString::fromUtf8("Hello World..."));
+    ac->setText(QString::fromUtf8("Hello World (Editor)..."));
     ac->setObjectName(QLatin1String("editorwindow_helloworld"));
     ac->setActionCategory(DPluginAction::EditorColors);
 
@@ -102,12 +103,23 @@ void HelloWorldEditorPlugin::slotHelloWorld()
         return;
     }
 
+    PhotoInfoContainer inf = iface.originalPhotoInfo();
+
     QStringList props;
-    props << QString::fromUtf8("Size: (%1,%2)").arg(image->width()).arg(image->height());
+    props << QString::fromUtf8("Size    : %1x%2").arg(image->width()).arg(image->height());
+    props << QString::fromUtf8("Format  : %1").arg(image->format());
+    props << QString::fromUtf8("16 bits : %1").arg(image->sixteenBit() ? QLatin1String("true") : QLatin1String("false"));
+    props << QString::fromUtf8("Alpha   : %1").arg(image->hasAlpha()   ? QLatin1String("true") : QLatin1String("false"));
+    props << QString::fromUtf8("Make    : %1").arg(inf.make);
+    props << QString::fromUtf8("Model   : %1").arg(inf.model);
+    props << QString::fromUtf8("Exposure: %1").arg(inf.exposureTime);
+    props << QString::fromUtf8("Aperture: %1").arg(inf.aperture);
+    props << QString::fromUtf8("Focal   : %1").arg(inf.focalLength);
+    props << QString::fromUtf8("Flash   : %1").arg(inf.flash);
 
     DMessageBox::showInformationList(QMessageBox::Information,
                                      qApp->activeWindow(),
-                                     QString::fromUtf8("Hello World"),
+                                     QString::fromUtf8("Hello World (Editor)"),
                                      QString::fromUtf8("Image properties:"),
                                      props);
 }

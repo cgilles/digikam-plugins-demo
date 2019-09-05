@@ -47,7 +47,7 @@ HelloWorld::~HelloWorld()
 void HelloWorld::registerSettingsWidget()
 {
     m_settingsWidget = new QWidget;
-    new QLabel(QString::fromLatin1("Hello World !"), m_settingsWidget);
+    new QLabel(QString::fromLatin1("Hello World (Bqm)"), m_settingsWidget);
 
     BatchTool::registerSettingsWidget();
 }

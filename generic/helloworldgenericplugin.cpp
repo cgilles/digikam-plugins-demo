@@ -84,7 +84,7 @@ void HelloWorldPlugin::setup(QObject* const parent)
 {
     DPluginAction* const ac = new DPluginAction(parent);
     ac->setIcon(icon());
-    ac->setText(QString::fromUtf8("Hello World..."));
+    ac->setText(QString::fromUtf8("Hello World (Generic)..."));
     ac->setObjectName(QLatin1String("HelloWorld"));
     ac->setActionCategory(DPluginAction::GenericTool);
 
@@ -118,7 +118,7 @@ void HelloWorldPlugin::slotHelloWorld()
 
         DMessageBox::showInformationList(QMessageBox::Information,
                                          qApp->activeWindow(),
-                                         QString::fromUtf8("Hello World"),
+                                         QString::fromUtf8("Hello World (Generic)"),
                                          caption,
                                          items);
     }
