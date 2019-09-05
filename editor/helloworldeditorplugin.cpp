@@ -27,6 +27,11 @@
 #include <QApplication>
 #include <QMessageBox>
 
+// digiKam includes
+
+#include <imageiface.h>
+#include <dmessagebox.h>
+
 namespace DigikamEditorHelloWorldEditorPlugin
 {
 
@@ -89,9 +94,22 @@ void HelloWorldEditorPlugin::setup(QObject* const parent)
 
 void HelloWorldEditorPlugin::slotHelloWorld()
 {
-    QMessageBox::information(qApp->activeWindow(),
-                             qApp->applicationName(),
-                             QString::fromUtf8("Hello World"));
+    ImageIface iface;
+    DImg* const image = iface.original();
+
+    if (!image)
+    {
+        return;
+    }
+
+    QStringList props;
+    props << QString::fromUtf8("Size: (%1,%2)").arg(image->width()).arg(image->height());
+
+    DMessageBox::showInformationList(QMessageBox::Information,
+                                     qApp->activeWindow(),
+                                     QString::fromUtf8("Hello World"),
+                                     QString::fromUtf8("Image editor properties:"),
+                                     props);
 }
 
 } // namespace DigikamEditorHelloWorldEditorPlugin
