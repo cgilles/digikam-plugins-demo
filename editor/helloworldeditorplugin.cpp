@@ -108,7 +108,7 @@ void HelloWorldEditorPlugin::slotHelloWorld()
     DMessageBox::showInformationList(QMessageBox::Information,
                                      qApp->activeWindow(),
                                      QString::fromUtf8("Hello World"),
-                                     QString::fromUtf8("Image editor properties:"),
+                                     QString::fromUtf8("Image properties:"),
                                      props);
 }
 
