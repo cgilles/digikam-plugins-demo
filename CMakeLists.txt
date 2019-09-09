@@ -14,6 +14,7 @@ INCLUDE(MacroInstall)
 add_subdirectory(bqm)
 add_subdirectory(editor)
 add_subdirectory(generic)
+add_subdirectory(rawimport)
 
 ###
 
