@@ -3,7 +3,7 @@
  * This file is a part of digiKam project
  * https://www.digikam.org
  *
- * Date        : 2018-07-30
+ * Date        : 2019-07-30
  * Description : Hello World demo image editor plugin.
  *
  * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
@@ -31,7 +31,7 @@
 
 using namespace Digikam;
 
-namespace DigikamEditorHelloWorldEditorPlugin
+namespace DigikamEditorHelloWorldPlugin
 {
 
 class HelloWorldEditorPlugin : public DPluginEditor
@@ -59,6 +59,6 @@ private Q_SLOTS:
     void slotHelloWorld();
 };
 
-} // namespace DigikamEditorHelloWorldToolPlugin
+} // namespace DigikamEditorHelloWorldPlugin
 
 #endif // DIGIKAM_HELLO_WORLD_EDITOR_PLUGIN_H
