@@ -89,7 +89,8 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
                                                             << QLatin1String("-4")
                                                             << QLatin1String("-T")
                                                             << filePath);
-    LoadingDescription props(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tiff"));
+    LoadingDescription props(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tiff"),
+                             LoadingDescription::ConvertForEditor);
 
     emit signalDecodedImage(props);
 }
