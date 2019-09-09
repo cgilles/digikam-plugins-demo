@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QProcess>
 #include <QFileInfo>
+#include <QDebug>
 
 namespace DigikamRawImportHelloWorldPlugin
 {
@@ -82,11 +83,15 @@ void HelloWorldRawImportPlugin::setup(QObject* const parent)
 bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding& def)
 {
     QFileInfo fi(filePath);
+    qDebug() << "HelloWorldRawImportPlugin :: converting" << fi.fileName() << "using dcraw CLI tool...";
+
     QProcess::execute(QLatin1String("dcraw"), QStringList() << QLatin1String("-v")
                                                             << QLatin1String("-4")
                                                             << QLatin1String("-T")
                                                             << filePath);
-    emit signalDecodedImage(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tif"));
+    LoadingDescription props(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tiff"));
+
+    emit signalDecodedImage(props);
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin
