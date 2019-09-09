@@ -3,7 +3,7 @@
  * This file is a part of digiKam project
  * https://www.digikam.org
  *
- * Date        : 2010-09-01
+ * Date        : 2019-09-01
  * Description : Hello World batch tool.
  *
  * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
