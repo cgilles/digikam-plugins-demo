@@ -92,7 +92,9 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     LoadingDescription props(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tiff"),
                              LoadingDescription::ConvertForEditor);
 
-    emit signalDecodedImage(props);
+    DImg decoded(props.filePath);
+
+    emit signalDecodedImage(props, decoded);
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin
