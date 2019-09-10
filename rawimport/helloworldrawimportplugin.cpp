@@ -85,16 +85,28 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     QFileInfo fi(filePath);
     qDebug() << "HelloWorldRawImportPlugin :: converting" << fi.fileName() << "using dcraw CLI tool...";
 
-    QProcess::execute(QLatin1String("dcraw"), QStringList() << QLatin1String("-v")
-                                                            << QLatin1String("-4")
-                                                            << QLatin1String("-T")
-                                                            << filePath);
+    int ret = QProcess::execute(QLatin1String("dcraw"), QStringList() << QLatin1String("-v")
+                                                                      << QLatin1String("-4")
+                                                                      << QLatin1String("-T")
+                                                                      << filePath);
+
+    if (ret < 0)
+    {
+        return false;
+    }
+
     LoadingDescription props(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tiff"),
                              LoadingDescription::ConvertForEditor);
 
     DImg decoded(props.filePath);
 
-    emit signalDecodedImage(props, decoded);
+    if (!decoded.isNull())
+    {
+        emit signalDecodedImage(props, decoded);
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin
