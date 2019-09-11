@@ -37,7 +37,8 @@ HelloWorldRawImportPlugin::HelloWorldRawImportPlugin(QObject* const parent)
     : DPluginRawImport(parent),
       m_dcraw(nullptr),
       m_dlg(nullptr),
-      m_history(nullptr)
+      m_history(nullptr),
+      m_tempFile(nullptr)
 {
 }
 
@@ -89,12 +90,15 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     m_fileInfo = QFileInfo(filePath);
     m_props    = LoadingDescription(m_fileInfo.filePath(), LoadingDescription::ConvertForEditor);
     m_decoded  = DImg();
+    m_tempFile = new QTemporaryFile();
+    m_tempFile->open();
 
-    m_dcraw   = new QProcess(this);
+    m_dcraw    = new QProcess(this);
     m_dcraw->setProcessChannelMode(QProcess::MergedChannels);
     m_dcraw->setWorkingDirectory(m_fileInfo.path());
+    m_dcraw->setStandardOutputFile(m_tempFile.fileName());
 
-    m_dlg     = new QDialog(nullptr);
+    m_dlg      = new QDialog(nullptr);
     m_dlg->setWindowTitle(QString::fromUtf8("Import RAW with dcraw"));
 
     QVBoxLayout* const vlay = new QVBoxLayout(m_dlg);
@@ -118,9 +122,10 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     m_fileInfo = QFileInfo(filePath);
     m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."), DHistoryView::StartingEntry);
 
-    m_dcraw->start(QLatin1String("dcraw"), QStringList() << QLatin1String("-v")
-                                                         << QLatin1String("-4")
-                                                         << QLatin1String("-T")
+    m_dcraw->start(QLatin1String("dcraw"), QStringList() << QLatin1String("-v") // Verbose
+                                                         << QLatin1String("-4") // 8 bits per color per pixels
+                                                         << QLatin1String("-T") // TIFF output
+                                                         << QLatin1String("-c") // Piped output image
                                                          << filePath);
 
     return true;

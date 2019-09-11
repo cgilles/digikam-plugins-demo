@@ -27,6 +27,7 @@
 
 #include <QProcess>
 #include <QFileInfo>
+#include <QTemporaryFile>
 #include <QDialog>
 
 // Digikam includes
@@ -79,6 +80,7 @@ private:
     DImg               m_decoded;
     LoadingDescription m_props;
     QFileInfo          m_fileInfo;
+    QTemporaryFile*    m_tempFile;
 };
 
 } // namespace DigikamRawImportHelloWorldPlugin
