@@ -131,11 +131,11 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
     if (code < 0)
     {
         m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"), DHistoryView::ErrorEntry);
-        m_history->addEntry( QString::fromUtf8("Press Close to load RAW image with native import tool"), DHistoryView::WarningEntry);
+        m_history->addEntry( QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
     }
     else
     {
-        m_history->addEntry(QString::fromUtf8("Preparing to load decoded image..."), DHistoryView::ProgressEntry);
+        m_history->addEntry(QString::fromUtf8("Preparing to load pre-processed image..."), DHistoryView::ProgressEntry);
 
         m_props   = LoadingDescription(m_fileInfo.path() + QLatin1Char('/') + m_fileInfo.completeBaseName() + QLatin1String(".tiff"),
                                        LoadingDescription::ConvertForEditor);
@@ -144,12 +144,12 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
 
         if (!m_decoded.isNull())
         {
-            m_history->addEntry(QString::fromUtf8("Press Close to load decoded image in editor"), DHistoryView::SuccessEntry);
+            m_history->addEntry(QString::fromUtf8("Close this dialog to load pre-processed image in editor"), DHistoryView::SuccessEntry);
         }
         else
         {
             m_history->addEntry(QString::fromUtf8("Error to load decoded image!"), DHistoryView::ErrorEntry);
-            m_history->addEntry(QString::fromUtf8("Press Close to load RAW image with native import tool"), DHistoryView::WarningEntry);
+            m_history->addEntry(QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
         }
     }
 }
@@ -168,8 +168,19 @@ void HelloWorldRawImportPlugin::slotProcessReadyRead()
 void HelloWorldRawImportPlugin::slotDlgClosed()
 {
     qDebug() << "Closing Raw Import dialog...";
-    qDebug() << "Decoded image is null:" << m_decoded.isNull();
-    emit signalDecodedImage(m_props, m_decoded);
+
+    if (m_decoded.isNull())
+    {
+        qDebug() << "Decoded image is null! Load with Native tool...";
+        qDebug() << m_props.filePath;
+        emit signalLoadRaw(m_props);
+    }
+    else
+    {
+        qDebug() << "Decoded image is not null...";
+        qDebug() << m_props.filePath;
+        emit signalDecodedImage(m_props, m_decoded);
+    }
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin
