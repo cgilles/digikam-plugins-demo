@@ -82,7 +82,7 @@ QList<DPluginAuthor> HelloWorldRawImportPlugin::authors() const
 
 void HelloWorldRawImportPlugin::setup(QObject* const parent)
 {
-    // TODO: Check dcraw availability ?
+    // Nothing to do
 }
 
 bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding& def)
@@ -90,13 +90,16 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     m_fileInfo = QFileInfo(filePath);
     m_props    = LoadingDescription(m_fileInfo.filePath(), LoadingDescription::ConvertForEditor);
     m_decoded  = DImg();
+
+    delete m_tempFile;
+
     m_tempFile = new QTemporaryFile();
     m_tempFile->open();
 
     m_dcraw    = new QProcess(this);
     m_dcraw->setProcessChannelMode(QProcess::MergedChannels);
     m_dcraw->setWorkingDirectory(m_fileInfo.path());
-    m_dcraw->setStandardOutputFile(m_tempFile.fileName());
+    m_dcraw->setStandardOutputFile(m_tempFile->fileName());
 
     m_dlg      = new QDialog(nullptr);
     m_dlg->setWindowTitle(QString::fromUtf8("Import RAW with dcraw"));
@@ -122,11 +125,17 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     m_fileInfo = QFileInfo(filePath);
     m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."), DHistoryView::StartingEntry);
 
-    m_dcraw->start(QLatin1String("dcraw"), QStringList() << QLatin1String("-v") // Verbose
-                                                         << QLatin1String("-4") // 8 bits per color per pixels
-                                                         << QLatin1String("-T") // TIFF output
-                                                         << QLatin1String("-c") // Piped output image
-                                                         << filePath);
+    m_dcraw->setProgram(QLatin1String("dcraw"));
+    m_dcraw->setArguments(QStringList() << QLatin1String("-4") // 8 bits per color per pixels
+                                        << QLatin1String("-T") // TIFF output
+                                        << QLatin1String("-c") // Piped output image
+                                        << filePath);
+
+    m_history->addEntry(QString::fromUtf8("%1 %2").arg(m_dcraw->program())
+                                                  .arg(m_dcraw->arguments().join(QLatin1Char(' '))),
+                        DHistoryView::StartingEntry);
+
+    m_dcraw->start();
 
     return true;
 }
@@ -142,8 +151,7 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
     {
         m_history->addEntry(QString::fromUtf8("Preparing to load pre-processed image..."), DHistoryView::ProgressEntry);
 
-        m_props   = LoadingDescription(m_fileInfo.path() + QLatin1Char('/') + m_fileInfo.completeBaseName() + QLatin1String(".tiff"),
-                                       LoadingDescription::ConvertForEditor);
+        m_props   = LoadingDescription(m_tempFile->fileName(), LoadingDescription::ConvertForEditor);
 
         m_decoded = DImg(m_props.filePath);
 
@@ -161,7 +169,7 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
 
 void HelloWorldRawImportPlugin::slotProcessReadyRead()
 {
-    QByteArray data   = m_dcraw->readAll();
+    QByteArray data   = m_dcraw->readAllStandardError();
     QStringList lines = QString::fromUtf8(data).split(QLatin1Char('\n'), QString::SkipEmptyParts);
 
     foreach (const QString& one, lines)
@@ -186,6 +194,8 @@ void HelloWorldRawImportPlugin::slotDlgClosed()
         qDebug() << m_props.filePath;
         emit signalDecodedImage(m_props, m_decoded);
     }
+
+    delete m_tempFile;
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin
