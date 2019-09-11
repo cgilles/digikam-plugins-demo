@@ -24,16 +24,20 @@
 
 // Qt includes
 
+#include <QVBoxLayout>
 #include <QApplication>
-#include <QProcess>
-#include <QFileInfo>
+#include <QPointer>
 #include <QDebug>
+#include <QByteArray>
 
 namespace DigikamRawImportHelloWorldPlugin
 {
 
 HelloWorldRawImportPlugin::HelloWorldRawImportPlugin(QObject* const parent)
-    : DPluginRawImport(parent)
+    : DPluginRawImport(parent),
+      m_dcraw(nullptr),
+      m_dlg(nullptr),
+      m_history(nullptr)
 {
 }
 
@@ -77,36 +81,95 @@ QList<DPluginAuthor> HelloWorldRawImportPlugin::authors() const
 
 void HelloWorldRawImportPlugin::setup(QObject* const parent)
 {
-    // TODO Check dcraw availability.
+    // TODO: Check dcraw availability ?
 }
 
 bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding& def)
 {
-    QFileInfo fi(filePath);
-    qDebug() << "HelloWorldRawImportPlugin :: converting" << fi.fileName() << "using dcraw CLI tool...";
+    m_fileInfo = QFileInfo(filePath);
+    m_props    = LoadingDescription(m_fileInfo.filePath(), LoadingDescription::ConvertForEditor);
+    m_decoded  = DImg();
 
-    int ret = QProcess::execute(QLatin1String("dcraw"), QStringList() << QLatin1String("-v")
-                                                                      << QLatin1String("-4")
-                                                                      << QLatin1String("-T")
-                                                                      << filePath);
+    m_dcraw   = new QProcess(this);
+    m_dcraw->setProcessChannelMode(QProcess::MergedChannels);
+    m_dcraw->setWorkingDirectory(m_fileInfo.path());
 
-    if (ret < 0)
+    m_dlg     = new QDialog(nullptr);
+    m_dlg->setWindowTitle(QString::fromUtf8("Import RAW with dcraw"));
+
+    QVBoxLayout* const vlay = new QVBoxLayout(m_dlg);
+    m_history               = new DHistoryView(m_dlg);
+    vlay->addWidget(m_history);
+    m_dlg->setLayout(vlay);
+    m_dlg->resize(600, 400);
+
+    connect(m_dcraw, SIGNAL(started()),
+            m_dlg, SLOT(open()));
+
+    connect(m_dlg, SIGNAL(finished(int)),
+            this, SLOT(slotDlgClosed()));
+
+    connect(m_dcraw, SIGNAL(finished(int,QProcess::ExitStatus)),
+            this, SLOT(slotProcessFinished(int,QProcess::ExitStatus)));
+
+    connect(m_dcraw, SIGNAL(readyRead()),
+            this, SLOT(slotProcessReadyRead()));
+
+    m_fileInfo = QFileInfo(filePath);
+    m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."), DHistoryView::StartingEntry);
+
+    m_dcraw->start(QLatin1String("dcraw"), QStringList() << QLatin1String("-v")
+                                                         << QLatin1String("-4")
+                                                         << QLatin1String("-T")
+                                                         << filePath);
+
+    return true;
+}
+
+void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStatus status)
+{
+    if (code < 0)
     {
-        return false;
+        m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"), DHistoryView::ErrorEntry);
+        m_history->addEntry( QString::fromUtf8("Press Close to load RAW image with native import tool"), DHistoryView::WarningEntry);
     }
-
-    LoadingDescription props(fi.path() + QLatin1Char('/') + fi.completeBaseName() + QLatin1String(".tiff"),
-                             LoadingDescription::ConvertForEditor);
-
-    DImg decoded(props.filePath);
-
-    if (!decoded.isNull())
+    else
     {
-        emit signalDecodedImage(props, decoded);
-        return true;
-    }
+        m_history->addEntry(QString::fromUtf8("Preparing to load decoded image..."), DHistoryView::ProgressEntry);
 
-    return false;
+        m_props   = LoadingDescription(m_fileInfo.path() + QLatin1Char('/') + m_fileInfo.completeBaseName() + QLatin1String(".tiff"),
+                                       LoadingDescription::ConvertForEditor);
+
+        m_decoded = DImg(m_props.filePath);
+
+        if (!m_decoded.isNull())
+        {
+            m_history->addEntry(QString::fromUtf8("Press Close to load decoded image in editor"), DHistoryView::SuccessEntry);
+        }
+        else
+        {
+            m_history->addEntry(QString::fromUtf8("Error to load decoded image!"), DHistoryView::ErrorEntry);
+            m_history->addEntry(QString::fromUtf8("Press Close to load RAW image with native import tool"), DHistoryView::WarningEntry);
+        }
+    }
+}
+
+void HelloWorldRawImportPlugin::slotProcessReadyRead()
+{
+    QByteArray data   = m_dcraw->readAll();
+    QStringList lines = QString::fromUtf8(data).split(QLatin1Char('\n'), QString::SkipEmptyParts);
+
+    foreach (const QString& one, lines)
+    {
+        m_history->addEntry(one, DHistoryView::ProgressEntry);
+    }
+}
+
+void HelloWorldRawImportPlugin::slotDlgClosed()
+{
+    qDebug() << "Closing Raw Import dialog...";
+    qDebug() << "Decoded image is null:" << m_decoded.isNull();
+    emit signalDecodedImage(m_props, m_decoded);
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin

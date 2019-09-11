@@ -23,9 +23,18 @@
 #ifndef DIGIKAM_HELLO_WORLD_RAW_IMPORT_PLUGIN_H
 #define DIGIKAM_HELLO_WORLD_RAW_IMPORT_PLUGIN_H
 
-// Local includes
+// Qt includes
+
+#include <QProcess>
+#include <QFileInfo>
+#include <QDialog>
+
+// Digikam includes
 
 #include "dpluginrawimport.h"
+#include "dhistoryview.h"
+#include "dimg.h"
+#include "loadingdescription.h"
 
 #define DPLUGIN_IID "org.kde.digikam.plugin.rawimport.HelloWorld"
 
@@ -55,6 +64,21 @@ public:
     void setup(QObject* const) override;
 
     bool run(const QString& filePath, const DRawDecoding& def);
+
+private Q_SLOTS:
+
+    void slotProcessFinished(int, QProcess::ExitStatus);
+    void slotProcessReadyRead();
+    void slotDlgClosed();
+
+private:
+
+    QProcess*          m_dcraw;
+    QDialog*           m_dlg;
+    DHistoryView*      m_history;
+    DImg               m_decoded;
+    LoadingDescription m_props;
+    QFileInfo          m_fileInfo;
 };
 
 } // namespace DigikamRawImportHelloWorldPlugin
