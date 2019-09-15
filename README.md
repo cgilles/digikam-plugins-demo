@@ -13,7 +13,8 @@ It provides 4 "Hello World" plugins as:
   [![](data/digikam_bqm_helloworld.png "Hello World BQM Plugin")](data/digikam_bqm_helloworld.png)
 
 - Raw Import for Image Editor.
-  This plugin open RAW file in editor with a simple command line call using dcraw tool. 
+  This plugin open RAW file in editor with a simple command line call using dcraw tool.
+  [![](data/digikam_rawimport_helloworld.png "Hello World RawImport Plugin")](data/digikam_rawimport_helloworld.png)
 
 ### Dependencies:
 
