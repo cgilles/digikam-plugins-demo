@@ -48,7 +48,7 @@ HelloWorldRawImportPlugin::~HelloWorldRawImportPlugin()
 
 QString HelloWorldRawImportPlugin::name() const
 {
-    return QString::fromUtf8("Raw Import with dcraw");
+    return QString::fromUtf8("Demo Raw Import using dcraw");
 }
 
 QString HelloWorldRawImportPlugin::iid() const
