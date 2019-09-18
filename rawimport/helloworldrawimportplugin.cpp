@@ -58,7 +58,7 @@ QString HelloWorldRawImportPlugin::iid() const
 
 QIcon HelloWorldRawImportPlugin::icon() const
 {
-    return QIcon::fromTheme(QLatin1String("digikam"));
+    return QIcon::fromTheme(QLatin1String("image-x-adobe-dng"));
 }
 
 QString HelloWorldRawImportPlugin::description() const
@@ -194,8 +194,8 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
 
     if (code < 0)
     {
-        m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"),                        DHistoryView::ErrorEntry);
-        m_history->addEntry( QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
+        m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"),                       DHistoryView::ErrorEntry);
+        m_history->addEntry(QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
     }
     else
     {
