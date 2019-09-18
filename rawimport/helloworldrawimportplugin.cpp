@@ -132,6 +132,8 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
 
     m_fileInfo = QFileInfo(filePath);
     m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."),                  DHistoryView::StartingEntry);
+    m_history->addEntry(QString::fromUtf8("Note: closing this dialog while processing "
+                                          "will load RAW image with native import tool"),         DHistoryView::ProgressEntry);
     m_history->addEntry(QString::fromUtf8("Using temporary file %1").arg(m_tempFile->fileName()), DHistoryView::StartingEntry);
 
     m_dcraw->setProgram(QLatin1String("dcraw"));
