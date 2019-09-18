@@ -4,7 +4,7 @@
  * https://www.digikam.org
  *
  * Date        : 2019-09-09
- * Description : Hello World demo image editor plugin.
+ * Description : Hello World demo raw import plugin.
  *
  * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
