@@ -151,6 +151,11 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
 
 void HelloWorldRawImportPlugin::slotErrorOccurred(QProcess::ProcessError error)
 {
+    if (!m_dlg)
+    {
+        return;
+    }
+
     m_history->addEntry(QString::fromUtf8("Error to run dcraw! (code %1)").arg(error), DHistoryView::ErrorEntry);
 
     switch (error)
@@ -180,6 +185,11 @@ void HelloWorldRawImportPlugin::slotErrorOccurred(QProcess::ProcessError error)
 
 void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStatus status)
 {
+    if (!m_dlg)
+    {
+        return;
+    }
+
     if (code < 0)
     {
         m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"),                        DHistoryView::ErrorEntry);
@@ -206,6 +216,11 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
 
 void HelloWorldRawImportPlugin::slotProcessReadyRead()
 {
+    if (!m_dlg)
+    {
+        return;
+    }
+
     QByteArray data   = m_dcraw->readAllStandardError();
     QStringList lines = QString::fromUtf8(data).split(QLatin1Char('\n'), QString::SkipEmptyParts);
 
@@ -218,6 +233,14 @@ void HelloWorldRawImportPlugin::slotProcessReadyRead()
 void HelloWorldRawImportPlugin::slotDlgClosed()
 {
     qDebug() << "Closing Raw Import dialog...";
+
+    delete m_dlg;
+    m_dlg = nullptr;
+
+    if (m_dcraw->state() == QProcess::Running)
+    {
+        m_dcraw->kill();
+    }
 
     if (m_decoded.isNull())
     {
@@ -233,6 +256,7 @@ void HelloWorldRawImportPlugin::slotDlgClosed()
     }
 
     delete m_tempFile;
+    m_tempFile = nullptr;
 }
 
 } // namespace DigikamRawImportHelloWorldPlugin
