@@ -123,7 +123,8 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
             this, SLOT(slotProcessReadyRead()));
 
     m_fileInfo = QFileInfo(filePath);
-    m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."), DHistoryView::StartingEntry);
+    m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."),                  DHistoryView::StartingEntry);
+    m_history->addEntry(QString::fromUtf8("Using temporary file %1").arg(m_tempFile->fileName()), DHistoryView::StartingEntry);
 
     m_dcraw->setProgram(QLatin1String("dcraw"));
     m_dcraw->setArguments(QStringList() << QLatin1String("-4") // 8 bits per color per pixels
@@ -152,7 +153,6 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
         m_history->addEntry(QString::fromUtf8("Preparing to load pre-processed image..."), DHistoryView::ProgressEntry);
 
         m_props   = LoadingDescription(m_tempFile->fileName(), LoadingDescription::ConvertForEditor);
-
         m_decoded = DImg(m_props.filePath);
 
         if (!m_decoded.isNull())

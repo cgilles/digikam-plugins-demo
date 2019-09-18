@@ -62,7 +62,7 @@ public:
     QString description()          const override;
     QList<DPluginAuthor> authors() const override;
 
-    void setup(QObject* const) override;
+    void setup(QObject* const)           override;
 
     bool run(const QString& filePath, const DRawDecoding& def);
 
