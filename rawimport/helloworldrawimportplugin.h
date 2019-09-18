@@ -68,6 +68,7 @@ public:
 
 private Q_SLOTS:
 
+    void slotErrorOccurred(QProcess::ProcessError);
     void slotProcessFinished(int, QProcess::ExitStatus);
     void slotProcessReadyRead();
     void slotDlgClosed();

@@ -101,6 +101,19 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     m_dcraw->setWorkingDirectory(m_fileInfo.path());
     m_dcraw->setStandardOutputFile(m_tempFile->fileName());
 
+    connect(m_dcraw, SIGNAL(errorOccurred(QProcess::ProcessError)),
+            this, SLOT(slotErrorOccurred(QProcess::ProcessError)));
+
+    connect(m_dcraw, SIGNAL(finished(int,QProcess::ExitStatus)),
+            this, SLOT(slotProcessFinished(int,QProcess::ExitStatus)));
+
+    connect(m_dcraw, SIGNAL(readyRead()),
+            this, SLOT(slotProcessReadyRead()));
+
+    // --------
+
+    delete m_dlg;
+
     m_dlg      = new QDialog(nullptr);
     m_dlg->setWindowTitle(QString::fromUtf8("Import RAW with dcraw"));
 
@@ -110,17 +123,12 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     m_dlg->setLayout(vlay);
     m_dlg->resize(600, 400);
 
-    connect(m_dcraw, SIGNAL(started()),
-            m_dlg, SLOT(open()));
-
     connect(m_dlg, SIGNAL(finished(int)),
             this, SLOT(slotDlgClosed()));
 
-    connect(m_dcraw, SIGNAL(finished(int,QProcess::ExitStatus)),
-            this, SLOT(slotProcessFinished(int,QProcess::ExitStatus)));
+    m_dlg->open();
 
-    connect(m_dcraw, SIGNAL(readyRead()),
-            this, SLOT(slotProcessReadyRead()));
+    // --------
 
     m_fileInfo = QFileInfo(filePath);
     m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."),                  DHistoryView::StartingEntry);
@@ -141,11 +149,40 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     return true;
 }
 
+void HelloWorldRawImportPlugin::slotErrorOccurred(QProcess::ProcessError error)
+{
+    m_history->addEntry(QString::fromUtf8("Error to run dcraw! (code %1)").arg(error), DHistoryView::ErrorEntry);
+
+    switch (error)
+    {
+        case QProcess::FailedToStart:
+            m_history->addEntry(QString::fromUtf8("Process has failed to start"), DHistoryView::ErrorEntry);
+            break;
+        case QProcess::Crashed:
+            m_history->addEntry(QString::fromUtf8("Process has crashed"), DHistoryView::ErrorEntry);
+            break;
+        case QProcess::Timedout:
+            m_history->addEntry(QString::fromUtf8("Process time-out"), DHistoryView::ErrorEntry);
+            break;
+        case QProcess::WriteError:
+            m_history->addEntry(QString::fromUtf8("Process write error"), DHistoryView::ErrorEntry);
+            break;
+        case QProcess::ReadError:
+            m_history->addEntry(QString::fromUtf8("Process read error"), DHistoryView::ErrorEntry);
+            break;
+        default:
+            m_history->addEntry(QString::fromUtf8("Process error unknown"), DHistoryView::ErrorEntry);
+            break;
+    }
+
+    m_history->addEntry( QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
+}
+
 void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStatus status)
 {
     if (code < 0)
     {
-        m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"), DHistoryView::ErrorEntry);
+        m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"),                        DHistoryView::ErrorEntry);
         m_history->addEntry( QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
     }
     else
@@ -161,7 +198,7 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
         }
         else
         {
-            m_history->addEntry(QString::fromUtf8("Error to load decoded image!"), DHistoryView::ErrorEntry);
+            m_history->addEntry(QString::fromUtf8("Error to load decoded image!"),                                DHistoryView::ErrorEntry);
             m_history->addEntry(QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
         }
     }
