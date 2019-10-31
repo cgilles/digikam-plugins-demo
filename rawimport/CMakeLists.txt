@@ -21,7 +21,7 @@ find_package(Qt5 "5.6.0" REQUIRED
 )
 
 # Note : RawImport plugin have been introduced with 6.4.0
-find_package(DigikamCore "6.4.0"
+find_package(DigikamCore
              CONFIG REQUIRED)
 
 set_package_properties(DigikamCore PROPERTIES

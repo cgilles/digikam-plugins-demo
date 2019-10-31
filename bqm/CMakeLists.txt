@@ -21,7 +21,7 @@ find_package(Qt5 "5.6.0" REQUIRED
              Sql
 )
 
-find_package(DigikamGui "6.3.0"
+find_package(DigikamGui
              CONFIG REQUIRED)
 
 set_package_properties(DigikamGui PROPERTIES
@@ -29,7 +29,7 @@ set_package_properties(DigikamGui PROPERTIES
                        DESCRIPTION "digiKam gui library"
 )
 
-find_package(DigikamDatabase "6.3.0"
+find_package(DigikamDatabase
              CONFIG REQUIRED)
 
 set_package_properties(DigikamDatabase PROPERTIES

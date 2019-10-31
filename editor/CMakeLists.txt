@@ -20,7 +20,7 @@ find_package(Qt5 "5.6.0" REQUIRED
              Gui
 )
 
-find_package(DigikamCore "6.3.0"
+find_package(DigikamCore
              CONFIG REQUIRED)
 
 set_package_properties(DigikamCore PROPERTIES
