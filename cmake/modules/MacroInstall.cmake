@@ -17,7 +17,7 @@ macro(MACRO_ADD_PLUGIN_INSTALL_TARGET TARGET_NAME TARGET_TYPE)
 
     if    (${TARGET_TYPE} STREQUAL "generic")
 
-        set (_pluginInstallPath ${DPluginFenericInstallPath})
+        set (_pluginInstallPath ${DPluginGenericInstallPath})
 
     elseif(${TARGET_TYPE} STREQUAL "editor")
 
