@@ -20,9 +20,9 @@ It provides 4 "Hello World" plugins as:
 
 - CMake           >= 3.1.0      (https://cmake.org/)            All plugin types
 - Qt              >= 5.6.0      (https://www.qt.io/)            All plugin types
-- DigikamCore     >= 6.4.0      (https://www.digikam.org)       Generic, Editor, and RawImport plugins
-- DigikamDatabase >= 6.4.0      (https://www.digikam.org)       BQM plugin only
-- DigikamGui      >= 6.4.0      (https://www.digikam.org)       BQM plugin only
+- DigikamCore     >= 7.0.0      (https://www.digikam.org)       Generic, Editor, and RawImport plugins
+- DigikamDatabase >= 7.0.0      (https://www.digikam.org)       BQM plugin only
+- DigikamGui      >= 7.0.0      (https://www.digikam.org)       BQM plugin only
 
 Notes:
 

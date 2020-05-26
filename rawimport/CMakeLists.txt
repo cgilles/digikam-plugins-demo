@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2019, Gilles Caulier, <caulier dot gilles at gmail dot com>
+# Copyright (c) 2019-2020, Gilles Caulier, <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
@@ -10,7 +10,6 @@ cmake_minimum_required(VERSION "3.1.0")
 set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_AUTOMOC ON)
 
-include(GNUInstallDirs)
 include(FeatureSummary)
 
 find_package(Qt5 "5.6.0" REQUIRED

@@ -1,37 +1,44 @@
 #
-# Copyright (c) 2019, Gilles Caulier, <caulier dot gilles at gmail dot com>
+# Copyright (c) 2019-2020, Gilles Caulier, <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
 
+include(GNUInstallDirs)
+include(${CMAKE_INSTALL_FULL_LIBDIR}/cmake/DigikamPlugin/DigikamPluginConfig.cmake)
+
 # MACRO_ADD_PLUGIN_INSTALL_TARGET
 # Install plugin files on the system processed with "make install" or "make install/fast".
 # TARGET_NAME is the name of the plugin target to install (aka "Generic_HelloWorld_Plugin").
-# TARGET_TYPE is the plugin type. Possible value: "generic", "editor", or "bqm".
+# TARGET_TYPE is the plugin type. Possible value: "generic", "editor", "rawimport", or "bqm".
 #
 macro(MACRO_ADD_PLUGIN_INSTALL_TARGET TARGET_NAME TARGET_TYPE)
 
-    get_target_property(QT_QMAKE_EXECUTABLE ${Qt5Core_QMAKE_EXECUTABLE} IMPORTED_LOCATION)
+    if    (${TARGET_TYPE} STREQUAL "generic")
 
-    if(NOT QT_QMAKE_EXECUTABLE)
-        message(FATAL_ERROR "qmake is not found.")
-    endif()
+        set (_pluginInstallPath ${DPluginFenericInstallPath})
 
-    # execute the command "qmake -query QT_INSTALL_PLUGINS" to get the path of plugins dir.
-    execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_PLUGINS
-                    OUTPUT_VARIABLE QT_PLUGINS_DIR
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+    elseif(${TARGET_TYPE} STREQUAL "editor")
 
-    if(NOT QT_PLUGINS_DIR)
-        message(FATAL_ERROR "Qt5 plugin directory cannot be detected.")
+        set (_pluginInstallPath ${DPluginEditorInstallPath})
+
+    elseif(${TARGET_TYPE} STREQUAL "rawimport")
+
+        set (_pluginInstallPath ${DPluginRawImportInstallPath})
+
+    elseif(${TARGET_TYPE} STREQUAL "bqm")
+
+        set (_pluginInstallPath ${DPluginBqmInstallPath})
+
+    else()
+
+        message(FATAL "Unrecognized plugin type ${TARGET_TYPE} for ${TARGET_NAME}")
+
     endif()
 
     install(TARGETS ${TARGET_NAME}
-            DESTINATION ${QT_PLUGINS_DIR}/digikam/${TARGET_TYPE}
-    )
-
+            DESTINATION ${_pluginInstallPath}/)
 endmacro()
 
 
