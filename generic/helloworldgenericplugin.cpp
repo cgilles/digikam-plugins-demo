@@ -48,7 +48,7 @@ HelloWorldPlugin::~HelloWorldPlugin()
 
 QString HelloWorldPlugin::name() const
 {
-    return QString::fromUtf8("Hello World");
+    return tr("Hello World");
 }
 
 QString HelloWorldPlugin::iid() const
@@ -63,12 +63,12 @@ QIcon HelloWorldPlugin::icon() const
 
 QString HelloWorldPlugin::description() const
 {
-    return QString::fromUtf8("A demo Hello World plugin");
+    return tr("A demo Hello World plugin");
 }
 
 QString HelloWorldPlugin::details() const
 {
-    return QString::fromUtf8("<p>This Generic plugin is a simple demo.</p>");
+    return tr("<p>This Generic plugin is a simple demo.</p>");
 }
 
 QList<DPluginAuthor> HelloWorldPlugin::authors() const
@@ -84,7 +84,7 @@ void HelloWorldPlugin::setup(QObject* const parent)
 {
     DPluginAction* const ac = new DPluginAction(parent);
     ac->setIcon(icon());
-    ac->setText(QString::fromUtf8("Hello World (Generic)..."));
+    ac->setText(tr("Hello World (Generic)..."));
     ac->setObjectName(QLatin1String("HelloWorld"));
     ac->setActionCategory(DPluginAction::GenericTool);
 
@@ -98,12 +98,12 @@ void HelloWorldPlugin::slotHelloWorld()
 {
     DInfoInterface* const iface = infoIface(sender());
     QList<QUrl> images          = iface->currentSelectedItems();
-    QString caption             = QString::fromUtf8("List of current selected items (%1):").arg(images.count());
+    QString caption             = tr("List of current selected items (%1):").arg(images.count());
 
     if (images.isEmpty())
     {
         images  = iface->currentAlbumItems();
-        caption = QString::fromUtf8("List of all items (%1):").arg(images.count());
+        caption = tr("List of all items (%1):").arg(images.count());
 
     }
 
@@ -118,7 +118,7 @@ void HelloWorldPlugin::slotHelloWorld()
 
         DMessageBox::showInformationList(QMessageBox::Information,
                                          qApp->activeWindow(),
-                                         QString::fromUtf8("Hello World (Generic)"),
+                                         tr("Hello World (Generic)"),
                                          caption,
                                          items);
     }
