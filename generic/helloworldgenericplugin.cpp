@@ -28,11 +28,24 @@
 #include <QMessageBox>
 #include <QList>
 #include <QUrl>
+#include <QTranslator>
+#include <QLocale>
 
 // digiKam includes
 
 #include <dinfointerface.h>
 #include <dmessagebox.h>
+
+// NOTE: need to be done outside plugin namespace.
+void s_initResource()
+{
+    Q_INIT_RESOURCE(i18n);
+}
+
+void s_cleanupResource()
+{
+    Q_CLEANUP_RESOURCE(i18n);
+}
 
 namespace DigikamGenericHelloWorldPlugin
 {
@@ -40,10 +53,13 @@ namespace DigikamGenericHelloWorldPlugin
 HelloWorldPlugin::HelloWorldPlugin(QObject* const parent)
     : DPluginGeneric(parent)
 {
+    s_initResource();
+    loadTranslations();
 }
 
 HelloWorldPlugin::~HelloWorldPlugin()
 {
+    s_cleanupResource();
 }
 
 QString HelloWorldPlugin::name() const
@@ -121,6 +137,45 @@ void HelloWorldPlugin::slotHelloWorld()
                                          tr("Hello World (Generic)"),
                                          caption,
                                          items);
+    }
+}
+
+bool HelloWorldPlugin::loadTranslation(const QString& lang) const
+{
+    qDebug() << "Loading i18n" << lang << "for plugin" << name();
+
+    QTranslator* const i18n = new QTranslator(qApp);
+
+    if (!i18n->load(QString::fromLatin1(":/i18n/%1.qm").arg(lang)))
+    {
+        delete i18n;
+        return false;
+    }
+
+    qApp->installTranslator(i18n);
+
+    return true;
+}
+
+void HelloWorldPlugin::loadTranslations()
+{
+    // Quote from ecm_create_qm_loader created code:
+    // The way Qt translation system handles plural forms makes it necessary to
+    // have a translation file which contains only plural forms for `en`.
+    // That's why we load the `en` translation unconditionally, then load the
+    // translation for the current locale to overload it.
+    const QString en(QStringLiteral("en"));
+
+    loadTranslation(en);
+
+    QLocale locale = QLocale::system();
+
+    if (locale.name() != en)
+    {
+        if (!loadTranslation(locale.name()))
+        {
+            loadTranslation(locale.bcp47Name());
+        }
     }
 }
 
