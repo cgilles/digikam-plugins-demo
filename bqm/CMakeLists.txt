@@ -36,10 +36,19 @@ set_package_properties(DigikamDatabase PROPERTIES
                        DESCRIPTION "digiKam database library"
 )
 
+include(i18nUtils)
+
+qt5_add_resources(plugin_QRC_SRCS
+                  ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc
+)
+
 include_directories($<TARGET_PROPERTY:Digikam::digikamdatabase,INTERFACE_INCLUDE_DIRECTORIES>/digikam)
 
 set(helloworld_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldbqmplugin.cpp
-                    ${CMAKE_CURRENT_SOURCE_DIR}/helloworld.cpp )
+                    ${CMAKE_CURRENT_SOURCE_DIR}/helloworld.cpp
+                    ${plugin_QRC_SRCS}
+                    ${i18n_QM}
+)
 
 add_library(Bqm_HelloWorld_Plugin
             MODULE ${helloworld_SRCS})

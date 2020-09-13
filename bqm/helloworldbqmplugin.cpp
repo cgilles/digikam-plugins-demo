@@ -6,7 +6,7 @@
  * Date        : 2019-09-01
  * Description : Hello World demo BQM plugin.
  *
- * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2020 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -29,6 +29,7 @@
 // Local includes
 
 #include "helloworld.h"
+#include "i18nutils.h"
 
 namespace DigikamBqmHelloWorldPlugin
 {
@@ -36,15 +37,18 @@ namespace DigikamBqmHelloWorldPlugin
 HelloWorldBqmPlugin::HelloWorldBqmPlugin(QObject* const parent)
     : DPluginBqm(parent)
 {
+    s_initI18nResource();
+    s_loadI18n(name());
 }
 
 HelloWorldBqmPlugin::~HelloWorldBqmPlugin()
 {
+    s_cleanupI18nResource();
 }
 
 QString HelloWorldBqmPlugin::name() const
 {
-    return QString::fromUtf8("Hello World");
+    return tr("Hello World");
 }
 
 QString HelloWorldBqmPlugin::iid() const
@@ -59,12 +63,12 @@ QIcon HelloWorldBqmPlugin::icon() const
 
 QString HelloWorldBqmPlugin::description() const
 {
-    return QString::fromUtf8("A demo tool Hello World");
+    return tr("A demo tool Hello World");
 }
 
 QString HelloWorldBqmPlugin::details() const
 {
-    return QString::fromUtf8("<p>This Batch Queue Manager tool is a simple demo.</p>");
+    return tr("<p>This Batch Queue Manager tool is a simple demo.</p>");
 }
 
 QList<DPluginAuthor> HelloWorldBqmPlugin::authors() const
@@ -72,7 +76,7 @@ QList<DPluginAuthor> HelloWorldBqmPlugin::authors() const
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
-                             QString::fromUtf8("(C) 2019"))
+                             QString::fromUtf8("(C) 2019-2020"))
             ;
 }
 
