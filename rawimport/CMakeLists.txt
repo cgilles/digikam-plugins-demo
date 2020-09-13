@@ -30,10 +30,6 @@ set_package_properties(DigikamCore PROPERTIES
 
 include(i18nUtils)
 
-qt5_add_resources(i18n_QRC_SRCS
-                  ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc
-)
-
 include_directories($<TARGET_PROPERTY:Digikam::digikamcore,INTERFACE_INCLUDE_DIRECTORIES>/digikam)
 
 set(helloworld_rawimport_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldrawimportplugin.cpp

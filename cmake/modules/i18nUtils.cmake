@@ -47,3 +47,7 @@ foreach(file ${i18n_QM})
 endforeach()
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/templates/i18n.qrc.in_cmake ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc)
+
+qt5_add_resources(i18n_QRC_SRCS
+                  ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc
+)
