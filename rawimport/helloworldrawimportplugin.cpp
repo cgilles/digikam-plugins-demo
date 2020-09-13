@@ -6,7 +6,7 @@
  * Date        : 2019-09-09
  * Description : Hello World demo raw import plugin.
  *
- * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2020 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -30,6 +30,10 @@
 #include <QDebug>
 #include <QByteArray>
 
+// Local includes
+
+#include "i18nutils.h"
+
 namespace DigikamRawImportHelloWorldPlugin
 {
 
@@ -40,15 +44,18 @@ HelloWorldRawImportPlugin::HelloWorldRawImportPlugin(QObject* const parent)
       m_history(nullptr),
       m_tempFile(nullptr)
 {
+    s_initI18nResource();
+    s_loadI18n(name());
 }
 
 HelloWorldRawImportPlugin::~HelloWorldRawImportPlugin()
 {
+    s_cleanupI18nResource();
 }
 
 QString HelloWorldRawImportPlugin::name() const
 {
-    return QString::fromUtf8("Demo Raw Import using dcraw");
+    return tr("Demo Raw Import using dcraw");
 }
 
 QString HelloWorldRawImportPlugin::iid() const
@@ -63,12 +70,12 @@ QIcon HelloWorldRawImportPlugin::icon() const
 
 QString HelloWorldRawImportPlugin::description() const
 {
-    return QString::fromUtf8("A demo Hello World plugin");
+    return tr("A demo Hello World plugin");
 }
 
 QString HelloWorldRawImportPlugin::details() const
 {
-    return QString::fromUtf8("<p>This Raw Import plugin is a simple demo using dcraw command line tool.</p>");
+    return tr("<p>This Raw Import plugin is a simple demo using dcraw command line tool.</p>");
 }
 
 QList<DPluginAuthor> HelloWorldRawImportPlugin::authors() const
@@ -76,7 +83,7 @@ QList<DPluginAuthor> HelloWorldRawImportPlugin::authors() const
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
-                             QString::fromUtf8("(C) 2019"))
+                             QString::fromUtf8("(C) 2019-2020"))
             ;
 }
 
@@ -115,7 +122,7 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     delete m_dlg;
 
     m_dlg      = new QDialog(nullptr);
-    m_dlg->setWindowTitle(QString::fromUtf8("Import RAW with dcraw"));
+    m_dlg->setWindowTitle(tr("Import RAW with dcraw"));
 
     QVBoxLayout* const vlay = new QVBoxLayout(m_dlg);
     m_history               = new DHistoryView(m_dlg);
@@ -131,10 +138,10 @@ bool HelloWorldRawImportPlugin::run(const QString& filePath, const DRawDecoding&
     // --------
 
     m_fileInfo = QFileInfo(filePath);
-    m_history->addEntry(QString::fromUtf8("Converting RAW image with dcraw..."),                  DHistoryView::StartingEntry);
-    m_history->addEntry(QString::fromUtf8("Note: closing this dialog while processing "
-                                          "will load RAW image with native import tool"),         DHistoryView::ProgressEntry);
-    m_history->addEntry(QString::fromUtf8("Using temporary file %1").arg(m_tempFile->fileName()), DHistoryView::StartingEntry);
+    m_history->addEntry(tr("Converting RAW image with dcraw..."),                  DHistoryView::StartingEntry);
+    m_history->addEntry(tr("Note: closing this dialog while processing "
+                           "will load RAW image with native import tool"),         DHistoryView::ProgressEntry);
+    m_history->addEntry(tr("Using temporary file %1").arg(m_tempFile->fileName()), DHistoryView::StartingEntry);
 
     m_dcraw->setProgram(QLatin1String("dcraw"));
     m_dcraw->setArguments(QStringList() << QLatin1String("-4") // 8 bits per color per pixels
@@ -158,31 +165,36 @@ void HelloWorldRawImportPlugin::slotErrorOccurred(QProcess::ProcessError error)
         return;
     }
 
-    m_history->addEntry(QString::fromUtf8("Error to run dcraw! (code %1)").arg(error), DHistoryView::ErrorEntry);
+    m_history->addEntry(tr("Error to run dcraw! (code %1)").arg(error), DHistoryView::ErrorEntry);
 
     switch (error)
     {
         case QProcess::FailedToStart:
-            m_history->addEntry(QString::fromUtf8("Process has failed to start"), DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Process has failed to start"), DHistoryView::ErrorEntry);
             break;
+
         case QProcess::Crashed:
-            m_history->addEntry(QString::fromUtf8("Process has crashed"), DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Process has crashed"), DHistoryView::ErrorEntry);
             break;
+
         case QProcess::Timedout:
-            m_history->addEntry(QString::fromUtf8("Process time-out"), DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Process time-out"), DHistoryView::ErrorEntry);
             break;
+
         case QProcess::WriteError:
-            m_history->addEntry(QString::fromUtf8("Process write error"), DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Process write error"), DHistoryView::ErrorEntry);
             break;
+
         case QProcess::ReadError:
-            m_history->addEntry(QString::fromUtf8("Process read error"), DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Process read error"), DHistoryView::ErrorEntry);
             break;
+
         default:
-            m_history->addEntry(QString::fromUtf8("Process error unknown"), DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Process error unknown"), DHistoryView::ErrorEntry);
             break;
     }
 
-    m_history->addEntry( QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
+    m_history->addEntry(tr("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
 }
 
 void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStatus status)
@@ -194,24 +206,24 @@ void HelloWorldRawImportPlugin::slotProcessFinished(int code, QProcess::ExitStat
 
     if (code < 0)
     {
-        m_history->addEntry(QString::fromUtf8("Error to decode RAW image with dcraw!"),                       DHistoryView::ErrorEntry);
-        m_history->addEntry(QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
+        m_history->addEntry(tr("Error to decode RAW image with dcraw!"),                       DHistoryView::ErrorEntry);
+        m_history->addEntry(tr("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
     }
     else
     {
-        m_history->addEntry(QString::fromUtf8("Preparing to load pre-processed image..."), DHistoryView::ProgressEntry);
+        m_history->addEntry(tr("Preparing to load pre-processed image..."), DHistoryView::ProgressEntry);
 
         m_props   = LoadingDescription(m_tempFile->fileName(), LoadingDescription::ConvertForEditor);
         m_decoded = DImg(m_props.filePath);
 
         if (!m_decoded.isNull())
         {
-            m_history->addEntry(QString::fromUtf8("Close this dialog to load pre-processed image in editor"), DHistoryView::SuccessEntry);
+            m_history->addEntry(tr("Close this dialog to load pre-processed image in editor"), DHistoryView::SuccessEntry);
         }
         else
         {
-            m_history->addEntry(QString::fromUtf8("Error to load decoded image!"),                                DHistoryView::ErrorEntry);
-            m_history->addEntry(QString::fromUtf8("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
+            m_history->addEntry(tr("Error to load decoded image!"),                                DHistoryView::ErrorEntry);
+            m_history->addEntry(tr("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
         }
     }
 }
