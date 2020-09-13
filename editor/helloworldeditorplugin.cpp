@@ -6,7 +6,7 @@
  * Date        : 2019-07-30
  * Description : Hello World demo image editor plugin.
  *
- * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2020 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -33,21 +33,28 @@
 #include <dmessagebox.h>
 #include <photoinfocontainer.h>
 
+// Local includes
+
+#include "i18nutils.h"
+
 namespace DigikamEditorHelloWorldPlugin
 {
 
 HelloWorldEditorPlugin::HelloWorldEditorPlugin(QObject* const parent)
     : DPluginEditor(parent)
 {
+    s_initI18nResource();
+    s_loadI18n(name());
 }
 
 HelloWorldEditorPlugin::~HelloWorldEditorPlugin()
 {
+    s_cleanupI18nResource();
 }
 
 QString HelloWorldEditorPlugin::name() const
 {
-    return QString::fromUtf8("Hello World");
+    return tr("Hello World");
 }
 
 QString HelloWorldEditorPlugin::iid() const
@@ -62,12 +69,12 @@ QIcon HelloWorldEditorPlugin::icon() const
 
 QString HelloWorldEditorPlugin::description() const
 {
-    return QString::fromUtf8("A demo Hello World plugin");
+    return tr("A demo Hello World plugin");
 }
 
 QString HelloWorldEditorPlugin::details() const
 {
-    return QString::fromUtf8("<p>This Image Editor plugin is a simple demo.</p>");
+    return tr("<p>This Image Editor plugin is a simple demo.</p>");
 }
 
 QList<DPluginAuthor> HelloWorldEditorPlugin::authors() const
@@ -75,7 +82,7 @@ QList<DPluginAuthor> HelloWorldEditorPlugin::authors() const
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
-                             QString::fromUtf8("(C) 2019"))
+                             QString::fromUtf8("(C) 2019-2020"))
             ;
 }
 
@@ -83,7 +90,7 @@ void HelloWorldEditorPlugin::setup(QObject* const parent)
 {
     DPluginAction* const ac = new DPluginAction(parent);
     ac->setIcon(icon());
-    ac->setText(QString::fromUtf8("Hello World (Editor)..."));
+    ac->setText(tr("Hello World (Editor)..."));
     ac->setObjectName(QLatin1String("editorwindow_helloworld"));
     ac->setActionCategory(DPluginAction::EditorColors);
 
@@ -106,21 +113,21 @@ void HelloWorldEditorPlugin::slotHelloWorld()
     PhotoInfoContainer inf = iface.originalPhotoInfo();
 
     QStringList props;
-    props << QString::fromUtf8("Size    : %1x%2").arg(image->width()).arg(image->height());
-    props << QString::fromUtf8("Format  : %1").arg(image->format());
-    props << QString::fromUtf8("16 bits : %1").arg(image->sixteenBit() ? QLatin1String("true") : QLatin1String("false"));
-    props << QString::fromUtf8("Alpha   : %1").arg(image->hasAlpha()   ? QLatin1String("true") : QLatin1String("false"));
-    props << QString::fromUtf8("Make    : %1").arg(inf.make);
-    props << QString::fromUtf8("Model   : %1").arg(inf.model);
-    props << QString::fromUtf8("Exposure: %1").arg(inf.exposureTime);
-    props << QString::fromUtf8("Aperture: %1").arg(inf.aperture);
-    props << QString::fromUtf8("Focal   : %1").arg(inf.focalLength);
-    props << QString::fromUtf8("Flash   : %1").arg(inf.flash);
+    props << tr("Size    : %1x%2").arg(image->width()).arg(image->height());
+    props << tr("Format  : %1").arg(image->format());
+    props << tr("16 bits : %1").arg(image->sixteenBit() ? QLatin1String("true") : QLatin1String("false"));
+    props << tr("Alpha   : %1").arg(image->hasAlpha()   ? QLatin1String("true") : QLatin1String("false"));
+    props << tr("Make    : %1").arg(inf.make);
+    props << tr("Model   : %1").arg(inf.model);
+    props << tr("Exposure: %1").arg(inf.exposureTime);
+    props << tr("Aperture: %1").arg(inf.aperture);
+    props << tr("Focal   : %1").arg(inf.focalLength);
+    props << tr("Flash   : %1").arg(inf.flash);
 
     DMessageBox::showInformationList(QMessageBox::Information,
                                      qApp->activeWindow(),
-                                     QString::fromUtf8("Hello World (Editor)"),
-                                     QString::fromUtf8("Image properties:"),
+                                     tr("Hello World (Editor)"),
+                                     tr("Image properties:"),
                                      props);
 }
 

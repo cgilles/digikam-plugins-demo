@@ -6,7 +6,7 @@
  * Date        : 2019-07-30
  * Description : Hello World demo generic plugin.
  *
- * Copyright (C) 2019 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2020 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -57,18 +57,6 @@ public:
 private Q_SLOTS:
 
     void slotHelloWorld();
-
-private:
-
-    /**
-     * Load translators system based i1!n
-     */
-    void loadTranslations();
-
-    /**
-     * Load one translation file from normal i18n packaging installation
-     */
-    bool loadTranslation(const QString& lang) const;
 };
 
 } // namespace DigikamGenericHelloWorldPlugin

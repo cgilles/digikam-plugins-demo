@@ -8,8 +8,10 @@ project(dplugins-demo)
 
 # Use common cmake macro from cmake/modules/ to install unistall plugins.
 
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
-INCLUDE(MacroInstall)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
+include(MacroInstall)
+
+include_directories(${CMAKE_SOURCE_DIR}/common)
 
 ###
 
