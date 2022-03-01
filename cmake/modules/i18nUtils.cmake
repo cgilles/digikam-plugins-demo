@@ -6,7 +6,7 @@
 
 # --- Translations rules (i18n)
 
-find_package(Qt5 "5.6.0" REQUIRED
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED
              NO_MODULE COMPONENTS
              Core
              LinguistTools              # for i18n
@@ -24,18 +24,31 @@ foreach(file ${translation_files})
        message(STATUS "It will be created in ${CMAKE_CURRENT_SOURCE_DIR}/i18n")
        message(STATUS "Don't forget to add this new file on git repository.")
 
-       qt5_create_translation(missing_i18n_QM
-                              ${CMAKE_CURRENT_SOURCE_DIR}
-                              ${file}
-       )
+       if(Qt6_FOUND)
+           qt6_create_translation(missing_i18n_QM
+                                  ${CMAKE_CURRENT_SOURCE_DIR}
+                                  ${file}
+           )
+       else()
+           qt5_create_translation(missing_i18n_QM
+                                  ${CMAKE_CURRENT_SOURCE_DIR}
+                                  ${file}
+           )
+       endif()
 
     endif()
 
 endforeach()
 
-qt5_add_translation(i18n_QM
-                    ${translation_files}
-)
+if(Qt6_FOUND)
+    qt6_add_translation(i18n_QM
+                        ${translation_files}
+    )
+else()
+    qt5_add_translation(i18n_QM
+                        ${translation_files}
+    )
+endif()
 
 foreach(file ${i18n_QM})
 
@@ -48,6 +61,12 @@ endforeach()
 
 configure_file(${CMAKE_SOURCE_DIR}/cmake/templates/i18n.qrc.in_cmake ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc)
 
-qt5_add_resources(i18n_QRC_SRCS
-                  ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc
-)
+if(Qt6_FOUND)
+    qt6_add_resources(i18n_QRC_SRCS
+                      ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc
+    )
+else()
+    qt5_add_resources(i18n_QRC_SRCS
+                      ${CMAKE_CURRENT_BINARY_DIR}/i18n.qrc
+    )
+endif()

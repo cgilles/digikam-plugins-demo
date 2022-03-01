@@ -12,7 +12,7 @@ set(CMAKE_AUTOMOC ON)
 
 include(FeatureSummary)
 
-find_package(Qt5 "5.6.0" REQUIRED
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED
              NO_MODULE COMPONENTS
              Core
              Widgets
@@ -55,10 +55,10 @@ target_link_libraries(Bqm_HelloWorld_Plugin
                       Digikam::digikamdatabase
                       Digikam::digikamgui
 
-                      Qt5::Core
-                      Qt5::Widgets
-                      Qt5::Gui
-                      Qt5::Sql
+                      Qt${QT_VERSION_MAJOR}::Core
+                      Qt${QT_VERSION_MAJOR}::Widgets
+                      Qt${QT_VERSION_MAJOR}::Gui
+                      Qt${QT_VERSION_MAJOR}::Sql
 )
 
 MACRO_ADD_PLUGIN_INSTALL_TARGET(Bqm_HelloWorld_Plugin bqm)

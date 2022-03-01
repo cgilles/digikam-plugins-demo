@@ -12,7 +12,7 @@ set(CMAKE_AUTOMOC ON)
 
 include(FeatureSummary)
 
-find_package(Qt5 "5.6.0" REQUIRED
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED
              NO_MODULE COMPONENTS
              Core
              Widgets
@@ -44,9 +44,9 @@ set_target_properties(Editor_HelloWorld_Plugin PROPERTIES PREFIX "")
 target_link_libraries(Editor_HelloWorld_Plugin
                       Digikam::digikamcore
 
-                      Qt5::Core
-                      Qt5::Widgets
-                      Qt5::Gui
+                      Qt${QT_VERSION_MAJOR}::Core
+                      Qt${QT_VERSION_MAJOR}::Widgets
+                      Qt${QT_VERSION_MAJOR}::Gui
 )
 
 MACRO_ADD_PLUGIN_INSTALL_TARGET(Editor_HelloWorld_Plugin editor)
