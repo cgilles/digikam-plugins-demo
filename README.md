@@ -18,16 +18,17 @@ It provides 4 "Hello World" plugins as:
 
 ### Dependencies:
 
-- CMake           >= 3.1.0      (https://cmake.org/)            All plugin types
-- Qt              >= 5.6.0      (https://www.qt.io/)            All plugin types
+- CMake           >= 3.16       (https://cmake.org/)            All plugin types
+- Qt5             >= 5.6.0      (https://www.qt.io/)            All plugin types
+- Qt6             >= 6.2.3      (https://www.qt.io/)            All plugin types
 - DigikamCore     >= 7.0.0      (https://www.digikam.org)       Generic, Editor, and RawImport plugins
 - DigikamDatabase >= 7.0.0      (https://www.digikam.org)       BQM plugin only
 - DigikamGui      >= 7.0.0      (https://www.digikam.org)       BQM plugin only
 
 Notes:
 
-- plugins do not depend on KF5 framework.
-- Generic, Editor and Bqm plugins can be compiled with digiKam 6.3.0 API. Only RawImport needs 6.4.0.
+- Plugins do not depend on KF5 framework.
+- Plugins can be compiled with Qt5 or Qt6.
 
 ### Compilation:
 
