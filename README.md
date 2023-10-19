@@ -19,15 +19,15 @@ It provides 4 "Hello World" plugins as:
 ### Dependencies:
 
 - CMake           >= 3.16       (https://cmake.org/)            All plugin types
-- Qt5             >= 5.6.0      (https://www.qt.io/)            All plugin types
-- Qt6             >= 6.2.3      (https://www.qt.io/)            All plugin types
-- DigikamCore     >= 7.0.0      (https://www.digikam.org)       Generic, Editor, and RawImport plugins
-- DigikamDatabase >= 7.0.0      (https://www.digikam.org)       BQM plugin only
-- DigikamGui      >= 7.0.0      (https://www.digikam.org)       BQM plugin only
+- Qt5             >= 5.15.0     (https://www.qt.io/)            All plugin types
+- Qt6             >= 6.5.0      (https://www.qt.io/)            All plugin types
+- DigikamCore     >= 8.2.0      (https://www.digikam.org)       Generic, Editor, and RawImport plugins
+- DigikamDatabase >= 8.2.0      (https://www.digikam.org)       BQM plugin only
+- DigikamGui      >= 8.2.0      (https://www.digikam.org)       BQM plugin only
 
 Notes:
 
-- Plugins do not depend on KF5 framework.
+- Plugins do not depend on KDE framework.
 - Plugins can be compiled with Qt5 or Qt6.
 
 ### Compilation:
