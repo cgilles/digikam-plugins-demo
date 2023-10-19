@@ -82,7 +82,7 @@ QList<DPluginAuthor> HelloWorldEditorPlugin::authors() const
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
-                             QString::fromUtf8("(C) 2019-2020"))
+                             QString::fromUtf8("(C) 2019-2023"))
             ;
 }
 
