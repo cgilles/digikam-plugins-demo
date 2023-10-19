@@ -1,13 +1,13 @@
 #
-# Copyright (c) 2019-2020, Gilles Caulier, <caulier dot gilles at gmail dot com>
+# Copyright (c) 2019-2023, Gilles Caulier, <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
 project(dpluginsdemo-rawimport)
 
-cmake_minimum_required(VERSION "3.1.0")
-set (CMAKE_CXX_STANDARD 11)
+cmake_minimum_required(VERSION "3.16.0")
+set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 
 include(FeatureSummary)
@@ -30,7 +30,7 @@ set_package_properties(DigikamCore PROPERTIES
 
 include(i18nUtils)
 
-include_directories($<TARGET_PROPERTY:Digikam::digikamcore,INTERFACE_INCLUDE_DIRECTORIES>/digikam)
+include_directories($<TARGET_PROPERTY:Digikam::digikamcore,INTERFACE_INCLUDE_DIRECTORIES>)
 
 set(helloworld_rawimport_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/helloworldrawimportplugin.cpp
                               ${i18n_QRC_SRCS}

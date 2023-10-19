@@ -1,10 +1,10 @@
 #
-# Copyright (c) 2019-2020, Gilles Caulier, <caulier dot gilles at gmail dot com>
+# Copyright (c) 2019-2023, Gilles Caulier, <caulier dot gilles at gmail dot com>
 #
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 
-cmake_minimum_required(VERSION "3.1.0")
+cmake_minimum_required(VERSION "3.16.0")
 
 project(dplugins-demo)
 
