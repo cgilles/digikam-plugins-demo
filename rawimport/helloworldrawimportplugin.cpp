@@ -6,7 +6,7 @@
  * Date        : 2019-09-09
  * Description : Hello World demo raw import plugin.
  *
- * Copyright (C) 2019-2023 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2024 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -38,11 +38,7 @@ namespace DigikamRawImportHelloWorldPlugin
 {
 
 HelloWorldRawImportPlugin::HelloWorldRawImportPlugin(QObject* const parent)
-    : DPluginRawImport(parent),
-      m_dcraw(nullptr),
-      m_dlg(nullptr),
-      m_history(nullptr),
-      m_tempFile(nullptr)
+    : DPluginRawImport(parent)
 {
     s_initI18nResource();
     s_loadI18n(name());
@@ -83,7 +79,7 @@ QList<DPluginAuthor> HelloWorldRawImportPlugin::authors() const
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
-                             QString::fromUtf8("(C) 2019-2023"))
+                             QString::fromUtf8("(C) 2019-2024"))
             ;
 }
 
@@ -170,28 +166,40 @@ void HelloWorldRawImportPlugin::slotErrorOccurred(QProcess::ProcessError error)
     switch (error)
     {
         case QProcess::FailedToStart:
+        {
             m_history->addEntry(tr("Process has failed to start"), DHistoryView::ErrorEntry);
             break;
+        }
 
         case QProcess::Crashed:
+        {
             m_history->addEntry(tr("Process has crashed"), DHistoryView::ErrorEntry);
             break;
+        }
 
         case QProcess::Timedout:
+        {
             m_history->addEntry(tr("Process time-out"), DHistoryView::ErrorEntry);
             break;
+        }
 
         case QProcess::WriteError:
+        {
             m_history->addEntry(tr("Process write error"), DHistoryView::ErrorEntry);
             break;
+        }
 
         case QProcess::ReadError:
+        {
             m_history->addEntry(tr("Process read error"), DHistoryView::ErrorEntry);
             break;
+        }
 
         default:
+        {
             m_history->addEntry(tr("Process error unknown"), DHistoryView::ErrorEntry);
             break;
+        }
     }
 
     m_history->addEntry(tr("Close this dialog to load RAW image with native import tool"), DHistoryView::WarningEntry);
@@ -236,7 +244,7 @@ void HelloWorldRawImportPlugin::slotProcessReadyRead()
     }
 
     QByteArray data   = m_dcraw->readAllStandardError();
-    QStringList lines = QString::fromUtf8(data).split(QLatin1Char('\n'), QString::SkipEmptyParts);
+    QStringList lines = QString::fromUtf8(data).split(QLatin1Char('\n'), Qt::SkipEmptyParts);
 
     foreach (const QString& one, lines)
     {
@@ -260,13 +268,15 @@ void HelloWorldRawImportPlugin::slotDlgClosed()
     {
         qDebug() << "Decoded image is null! Load with Native tool...";
         qDebug() << m_props.filePath;
-        emit signalLoadRaw(m_props);
+
+        Q_EMIT signalLoadRaw(m_props);
     }
     else
     {
         qDebug() << "Decoded image is not null...";
         qDebug() << m_props.filePath;
-        emit signalDecodedImage(m_props, m_decoded);
+
+        Q_EMIT signalDecodedImage(m_props, m_decoded);
     }
 
     delete m_tempFile;

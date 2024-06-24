@@ -40,10 +40,6 @@ HelloWorld::HelloWorld(QObject* const parent)
 {
 }
 
-HelloWorld::~HelloWorld()
-{
-}
-
 void HelloWorld::registerSettingsWidget()
 {
     m_settingsWidget = new QWidget;

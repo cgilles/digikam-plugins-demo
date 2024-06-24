@@ -6,7 +6,7 @@
  * Date        : 2019-07-30
  * Description : Hello World demo generic plugin.
  *
- * Copyright (C) 2019-2023 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2024 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -83,7 +83,7 @@ QList<DPluginAuthor> HelloWorldPlugin::authors() const
     return QList<DPluginAuthor>()
             << DPluginAuthor(QString::fromUtf8("Gilles Caulier"),
                              QString::fromUtf8("caulier dot gilles at gmail dot com"),
-                             QString::fromUtf8("(C) 2019-2023"))
+                             QString::fromUtf8("(C) 2019-2024"))
     ;
 }
 

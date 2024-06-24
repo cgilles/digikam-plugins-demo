@@ -6,7 +6,7 @@
  * Date        : 2019-07-30
  * Description : Hello World demo generic plugin.
  *
- * Copyright (C) 2019-2023 by Gilles Caulier <caulier dot gilles at gmail dot com>
+ * Copyright (C) 2019-2024 by Gilles Caulier <caulier dot gilles at gmail dot com>
  *
  * This program is free software; you can redistribute it
  * and/or modify it under the terms of the GNU General
@@ -20,8 +20,7 @@
  *
  * ============================================================ */
 
-#ifndef DIGIKAM_HELLO_WORLD_GENERIC_PLUGIN_H
-#define DIGIKAM_HELLO_WORLD_GENERIC_PLUGIN_H
+#pragma once
 
 // Local includes
 
@@ -60,5 +59,3 @@ private Q_SLOTS:
 };
 
 } // namespace DigikamGenericHelloWorldPlugin
-
-#endif // DIGIKAM_HELLO_WORLD_GENERIC_PLUGIN_H
